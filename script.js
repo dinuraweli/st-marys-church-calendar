@@ -1,9 +1,12 @@
 // script.js – Google Sheets powered events with separate Time & Location columns
 
 const calendar = document.querySelector('.calendar');
-const daysInJanuary = 31;
 
-// 👉 Replace with your actual Google Sheet ID and Sheet name
+// 🔧 CHANGE THESE PER MONTH
+const daysInMonth = 31;
+const startOffset = 3; // 0 = Monday, 1 = Tuesday, etc.
+
+// 👉 Google Sheet details
 const SHEET_ID = '16nbAR20INmfNgd_RRsgbt6ag9dSe5-5YF-3kK1YsrV4';
 const SHEET_NAME = 'Sheet1';
 
@@ -35,7 +38,16 @@ fetch(url)
   });
 
 function renderCalendar(events) {
-  for (let day = 1; day <= daysInJanuary; day++) {
+
+  // 🟦 Add empty cells before Day 1
+  for (let i = 0; i < startOffset; i++) {
+    const emptyDiv = document.createElement('div');
+    emptyDiv.classList.add('day', 'empty');
+    calendar.appendChild(emptyDiv);
+  }
+
+  // 🗓️ Render actual days
+  for (let day = 1; day <= daysInMonth; day++) {
     const dayDiv = document.createElement('div');
     dayDiv.classList.add('day');
 
@@ -46,6 +58,7 @@ function renderCalendar(events) {
 
     if (events[day]) {
       events[day].forEach(eventObj => {
+
         const eventDiv = document.createElement('div');
         eventDiv.classList.add('event');
         eventDiv.textContent = eventObj.title;
@@ -76,15 +89,14 @@ function renderCalendar(events) {
         }
 
         dayDiv.appendChild(eventDiv);
+
         if (detailsDiv.children.length > 0) {
           dayDiv.appendChild(detailsDiv);
         }
 
         dayDiv.addEventListener('click', () => {
           const expanded = dayDiv.classList.toggle('expanded');
-          if (detailsDiv.children.length > 0) {
-            detailsDiv.style.display = expanded ? 'block' : 'none';
-          }
+          detailsDiv.style.display = expanded ? 'block' : 'none';
         });
       });
     }

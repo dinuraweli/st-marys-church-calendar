@@ -1,41 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>December 2026 – Church Events</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset = "UTF-8" />
+  <meta name = "viewport" content = "width=device-width, initial-scale = 1.0" />
+  <title> December 2026 – Church Events </title>
+  <link rel = "stylesheet" href = "style.css" />
 </head>
+
 <body>
+ 
 
-  <div class="container">
-
-    <header>
-      <div class="logo">
-        <img src = "Dehiwala Church 2.png" alt = "Range">
-      </div>
-      <h3>St. Mary’s Church – Dehiwala</h3>
-      <h1>December 2025</h1>
+    <header class = "header">
+      <h1> January 2026 </h1>
     </header>
 
-    <div class="calendar">
-      <div class="day-name">Mon</div>
-      <div class="day-name">Tue</div>
-      <div class="day-name">Wed</div>
-      <div class="day-name">Thu</div>
-      <div class="day-name">Fri</div>
-      <div class="day-name">Sat</div>
-      <div class="day-name">Sun</div>
+    <div class = "content">
+      
+      <!-- Calendar -->
+      <div class = "calendar-section">
+        <div class = "weekdays">
+          <div>MON</div> <div>TUE</div> <div>WED</div>
+          <div>THU</div> <div>FRI</div> <div>SAT</div> 
+          <div>SUN</div>
+        </div>
 
-      <!-- Days will be injected by JS -->
+        <div class = "calendar">
+          <!-- JS injects day cards here -->
+        </div>
+      </div>
+
+      <!-- Side panel -->
+      <aside class = "side-panel">
+        <div class = "mass-schedule">
+          <h3> Mass Schedule <br>
+            St. Mary’s Church, Dehiwala</h3>
+
+          <!-- static text -->
+            <h4> Sunday </h4> 
+           <p>
+            6:00 am English <br>
+            7:30 am English <br>
+            8:45 am Tamil <br>
+            10:15 am Sinhala <br>
+            6:00 pm English <br>
+           </p>
+
+           <h4> Saturday </h4>   
+           <p> 
+            7:00 am English <br>
+            6:00 pm English <br>
+          </p>
+
+            <h4> Monday to Friday </h4>
+            <p>
+            6:00 am English <br>
+            6:00 pm English
+          </p>
+
+            <h4> No Evening Mass on Monday </h4>         
+        </div>
+
+        <div class = "logo">
+          <img src = "Dehiwala Church 2.png" alt = "Church Logo">
+        </div>
+      </aside>
+
     </div>
+  
 
-    <footer>
-      © St. Mary’s Church – Dehiwala · All times subject to change
-    </footer>
+  <footer class = "footer"> 
+    <p> &copy; 2025 Media Unit of St. Mary's Church Dehiwala. All rights reserved. <br>
+      All times subject to change </p>
+  </footer>
 
-  </div>
-
-  <script src="script.js"></script>
+  <script src = "script.js"> </script>
 </body>
 </html>

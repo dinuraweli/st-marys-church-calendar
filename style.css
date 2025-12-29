@@ -1,29 +1,126 @@
 * {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-/*body {
-  margin: 0;
-  background: #f7f7f7;
-  color: #333;
-}*/
+:root {
+  --main-border: solid rgba(217, 13, 13, 0);
+  --main-border2: solid rgba(33, 212, 108, 0);
+}
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   background: 
     linear-gradient(
       rgba(255, 255, 255, 0.88),
       rgba(255, 255, 255, 0.88)
     ),
     url('DSC_1279.JPG') center / cover no-repeat fixed;
+    padding: 40px 30px;
 }
 
+.content {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 30px;
+  border: var(--main-border)
+}
 
-header {
+.header h1 {
+  font-size: 42px;
+  letter-spacing: 2px;
+  color: #0b5fa5;
+  margin-bottom: 30px;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #444;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 15px;
+  border: var(--main-border2)
+}
+
+.day {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 90px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.day:hover {
+  transform: translateY(-2px);
+}
+
+.day {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.day.expanded {
+  background-color: #c7e3ed; /* blue highlight */
+}
+
+.day.christmas {
+  background-color: #f2cfe0; /* pink highlight */
+}
+
+.day.empty {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
+
+.date {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.event {
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  background: #b4c9ee;
+}
+
+.event-details {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.side-panel {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  font-size: 14px;
   text-align: center;
-  margin-bottom: 24px;
+}
+
+.side-panel h3 {
+  margin-top: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  line-height: 22px;
+}
+
+.side-panel h4 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.side-panel p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .logo {
@@ -36,59 +133,12 @@ header {
   width: 60px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-header p {
-  margin: 6px 0 0;
-  font-style: italic;
-  font-size: 14px;
-  color: #666;
-}
-
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  padding: 25px;
-}
-
-.day-name {
-  text-align: center;
-  font-weight: 600;
-  font-size: 13px;
-  color: #555;
-}
-
-.day {
-  background: #fff;
-  border-radius: 8px;
-  padding: 8px;
-  min-height: 90px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-}
-
-.date {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.event {
-  font-size: 12px;
-  padding: 4px 6px;
-  border-radius: 4px;
-  margin-bottom: 4px;
-  background: #e8f0fe;
-}
-
 footer {
   margin-top: 24px;
   text-align: center;
   font-size: 12px;
-  color: #777;
+  color: #181818;
+  border: 1px solid rgba(248, 248, 246, 0);
 }
 
 @media (max-width: 600px) {
@@ -99,21 +149,14 @@ footer {
   .day-name {
     display: none;
   }
+  .weekdays{
+    color: #33333300;
+  }
 }
 
-.day {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.day.expanded {
-  background: #f0f6ff;
-}
-
-.event-details {
-  font-size: 12px;
-  margin-top: 6px;
-  color: #444;
-  line-height: 1.4;
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
 }
 
