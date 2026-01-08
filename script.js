@@ -1,10 +1,8 @@
-// script.js – Google Sheets powered events with separate Time & Location columns
-
 const calendar = document.querySelector('.calendar');
 
-// 🔧 CHANGE THESE PER MONTH
+// 🔧 CHANGE THESE PER MONTH (TEMPORARY – will be removed when month selector is added)
 const daysInMonth = 31;
-const startOffset = 3; // 0 = Monday, 1 = Tuesday, etc.
+const startOffset = 3; // 0 = Monday
 
 // 👉 Google Sheet details
 const SHEET_ID = '16nbAR20INmfNgd_RRsgbt6ag9dSe5-5YF-3kK1YsrV4';
@@ -25,9 +23,10 @@ fetch(url)
 
       events[day].push({
         title: row.Event || '',
+        language: row.Language || '',
         time: row.Time || '',
         location: row.Location || '',
-        notes: row.Notes || ''
+        notes: row.Details || ''
       });
     });
 
@@ -38,15 +37,16 @@ fetch(url)
   });
 
 function renderCalendar(events) {
+  calendar.innerHTML = '';
 
-  // 🟦 Add empty cells before Day 1
+  // Empty cells before Day 1
   for (let i = 0; i < startOffset; i++) {
     const emptyDiv = document.createElement('div');
     emptyDiv.classList.add('day', 'empty');
     calendar.appendChild(emptyDiv);
   }
 
-  // 🗓️ Render actual days
+  // Render days
   for (let day = 1; day <= daysInMonth; day++) {
     const dayDiv = document.createElement('div');
     dayDiv.classList.add('day');
@@ -56,51 +56,74 @@ function renderCalendar(events) {
     dateDiv.textContent = day;
     dayDiv.appendChild(dateDiv);
 
+    // Show event labels only (no expansion)
     if (events[day]) {
-      events[day].forEach(eventObj => {
+  const uniqueTitles = [...new Set(events[day].map(e => e.title))];
 
-        const eventDiv = document.createElement('div');
-        eventDiv.classList.add('event');
-        eventDiv.textContent = eventObj.title;
+  uniqueTitles.forEach(title => {
+    const eventDiv = document.createElement('div');
+    eventDiv.classList.add('event');
+    eventDiv.textContent = title;
+    dayDiv.appendChild(eventDiv);
+  });
 
-        const detailsDiv = document.createElement('div');
-        detailsDiv.classList.add('event-details');
-        detailsDiv.style.display = 'none';
+  dayDiv.addEventListener('click', () => {
+    openEventModal(day, events[day]);
+  });
+}
 
-        if (eventObj.time) {
-          const timeEl = document.createElement('div');
-          timeEl.classList.add('event-time');
-          timeEl.textContent = `⏰ ${eventObj.time}`;
-          detailsDiv.appendChild(timeEl);
-        }
-
-        if (eventObj.location) {
-          const locEl = document.createElement('div');
-          locEl.classList.add('event-location');
-          locEl.textContent = `📍 ${eventObj.location}`;
-          detailsDiv.appendChild(locEl);
-        }
-
-        if (eventObj.notes) {
-          const notesEl = document.createElement('div');
-          notesEl.classList.add('event-notes');
-          notesEl.textContent = eventObj.notes;
-          detailsDiv.appendChild(notesEl);
-        }
-
-        dayDiv.appendChild(eventDiv);
-
-        if (detailsDiv.children.length > 0) {
-          dayDiv.appendChild(detailsDiv);
-        }
-
-        dayDiv.addEventListener('click', () => {
-          const expanded = dayDiv.classList.toggle('expanded');
-          detailsDiv.style.display = expanded ? 'block' : 'none';
-        });
-      });
-    }
 
     calendar.appendChild(dayDiv);
   }
 }
+
+// ===============================
+// MODAL LOGIC
+// ===============================
+
+function openEventModal(day, dayEvents) {
+  const modal = document.getElementById('eventModal');
+  const modalDate = document.getElementById('modalDate');
+  const modalEvents = document.getElementById('modalEvents');
+
+  modalDate.textContent = `January ${day}`;
+  modalEvents.innerHTML = '';
+
+  // Group by event title
+  const grouped = {};
+  dayEvents.forEach(e => {
+    if (!grouped[e.title]) grouped[e.title] = [];
+    grouped[e.title].push(e);
+  });
+
+  Object.keys(grouped).forEach(title => {
+    const block = document.createElement('div');
+    block.style.marginBottom = '16px';
+
+    let html = `<strong>${title}</strong><br>`;
+
+    grouped[title].forEach(entry => {
+      html += `${entry.language ? entry.language + ' – ' : ''}${entry.time}<br>`;
+    });
+
+    const first = grouped[title][0];
+    if (first.location) {
+      html += `📍 ${first.location}<br>`;
+    }
+    if (first.notes) {
+      html += `<small>${first.notes}</small>`;
+    }
+
+    block.innerHTML = html;
+    modalEvents.appendChild(block);
+  });
+
+  modal.style.display = 'flex';
+}
+
+// Close modal on background tap
+document.getElementById('eventModal').addEventListener('click', e => {
+  if (e.target.id === 'eventModal') {
+    e.currentTarget.style.display = 'none';
+  }
+});
